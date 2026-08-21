@@ -23,7 +23,7 @@ jobs:
           pip install pytest pytest-timeout
 
       - name: Setup DynaPyt
-        uses: clonedSemicolon/seytup-dynapyt@master
+        uses: avishak-umd/seytup-dynapyt@master
         with:
           targets: |
             file:flask_api/app.py
@@ -55,7 +55,7 @@ jobs:
 
       - name: Collect & upload DynaPyt traces
         if: always()
-        uses: clonedSemicolon/seytup-dynapyt@master
+        uses: avishak-umd/seytup-dynapyt@master
         with:
           mode: collect
           artifact-name: dynapyt-flask-api-${{ github.run_id }}
