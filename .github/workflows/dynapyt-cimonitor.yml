@@ -81,7 +81,7 @@ jobs:
           profiler: "setprofile"
 
       - name: Run test suite
-        timeout-minutes: 30
+        timeout-minutes: 350
         run: |
           timeout -s INT -k 20m 325m pytest --timeout=300 --import-mode=importlib flask_api/tests 2>&1 | tee pytest-output.log || true
 
