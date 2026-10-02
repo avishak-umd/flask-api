@@ -1,0 +1,45 @@
+name: Tests
+
+#############################
+# Start the job on all push #
+#############################
+on: [push, pull_request]
+
+jobs:
+  tests:
+    name: Python ${{ matrix.python-version }} Flask ${{ matrix.flask-version }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements/requirements.txt
+          pip install pytest pytest-timeout
+      # - uses: JavidDitty/setup-cintent@main
+      #   with:
+      #     profiler: "setprofile"
+
+      - name: Run test suite
+        timeout-minutes: 350
+        run: |
+          timeout -s INT -k 20m 325m pytest --timeout=300 --import-mode=importlib tests 2>&1 | tee pytest-output.log || true
+      # - name: Upload test log
+      #   if: always()
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: test-log-pythonrobotics-cimonitor
+      #     path: pytest-output.log
+
+      # - name: Upload CIntent Artifacts
+      #   if: always()
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: ${{ env.CINTENT_ARTIFACT_NAME }}
+      #     path: ${{ env.CINTENT_LOGS }}
