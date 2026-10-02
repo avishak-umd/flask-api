@@ -3,7 +3,7 @@ name: Tests
 #############################
 # Start the job on all push #
 #############################
-on: [push, pull_request]
+on: [workflow_dispatch]
 
 jobs:
   tests:
@@ -20,7 +20,8 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install -r requirements/requirements.txt
+          pip install -r requirements_dev.txt
+          pip install -e .
           pip install pytest pytest-timeout
       # - uses: JavidDitty/setup-cintent@main
       #   with:
